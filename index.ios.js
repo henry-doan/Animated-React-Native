@@ -13,45 +13,32 @@ export default class AnimatedReactNative extends Component {
   
   componentWillMount() {
     this.animatedValue1 = new Animated.Value(0);
-    this.animatedValue2 = new Animated.Value(0);
-    this.animatedValue3 = new Animated.Value(0);
+    this.animatedValue2 = new Animated.Value(1);
   }
 
   componentDidMount() {
-    Animated.stagger(300, [
+    Animated.parallel([
       Animated.timing(this.animatedValue1, {
-        toValue: height,
-        duration: 1500
+        toValue: 500,
+        duration: 300
       }),
-      Animated.timing(this.animatedValue2, {
-        toValue: height,
-        duration: 1500
-      }),
-      Animated.timing(this.animatedValue3, {
-        toValue: height,
-        duration: 1500
-      }),
+      Animated.spring(this.animatedValue2, {
+        toValue: 3,
+      })
     ]).start();
   }
 
   render() {
 
-    const animatedStyle1 = {
-      height: this.animatedValue1
-    }
-    const animatedStyle2 = {
-      height: this.animatedValue2
-    }
-    const animatedStyle3 = {
-      height: this.animatedValue3
+    const animatedStyle = {
+      transform: [
+        { translateY: this.animatedValue1},
+        { scale: this.animatedValue2}
+      ]
     }
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.box, animatedStyle1]}>
-        </Animated.View>
-        <Animated.View style={[styles.box, animatedStyle2]}>
-        </Animated.View>
-        <Animated.View style={[styles.box, animatedStyle3]}>
+        <Animated.View style={[styles.box, animatedStyle]}>
         </Animated.View>
       </View>
     );
@@ -61,13 +48,14 @@ export default class AnimatedReactNative extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: '#F5FCFF',
   },
   box: {
-    flex: 1,
     backgroundColor: "#333",
-    marginHorizontal: 5,
+    width: 100,
+    height: 100
   },
   button: {
     backgroundColor: "#333",
