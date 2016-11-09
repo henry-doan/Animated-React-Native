@@ -25,10 +25,16 @@ export default class AnimatedReactNative extends Component {
       inputRange: [0, 150],
       outputRange: ['rgb(0,0,0)', 'rgb(51, 250, 170)']
     })
+
+    const interpolateRotation = this.animatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '720deg'],
+    })
+
     const animatedStyle = {
       backgroundColor: interpolateColor,
       transform: [
-        { translateY: this.animatedValue }
+        { rotate: interpolateRotation }
       ]
     }
     return (
