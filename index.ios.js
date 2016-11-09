@@ -10,31 +10,35 @@ import {
 export default class AnimatedReactNative extends Component {
   
   componentWillMount() {
-    this.animatedValue = new Animated.Value(0);
+    this.animatedValue1 = new Animated.Value(0);
+    this.animatedValue2 = new Animated.Value(1);
   }
 
   componentDidMount() {
-    Animated.timing(this.animatedValue, {
-      toValue: 150,
-      duration: 1500
-    }).start();
+    Animated.sequence([
+      Animated.timing(this.animatedValue1, {
+        toValue: 150,
+        duration: 1000
+      }),
+      Animated.spring(this.animatedValue2, {
+        toValue: 3,
+      }),
+      Animated.timing(this.animatedValue1, {
+        toValue: 0,
+        duration: 1000
+      }),
+      Animated.spring(this.animatedValue2, {
+        toValue: .5,
+      }),
+    ]).start()
   }
 
   render() {
-    const interpolateColor = this.animatedValue.interpolate({
-      inputRange: [0, 150],
-      outputRange: ['rgb(0,0,0)', 'rgb(51, 250, 170)']
-    })
-
-    const interpolateRotation = this.animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: ['0deg', '720deg'],
-    })
 
     const animatedStyle = {
-      backgroundColor: interpolateColor,
       transform: [
-        { rotate: interpolateRotation }
+        { translateY: this.animatedValue1 },
+        { scale: this.animatedValue2}
       ]
     }
     return (
