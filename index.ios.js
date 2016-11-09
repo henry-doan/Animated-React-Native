@@ -11,19 +11,19 @@ import {
 export default class AnimatedReactNative extends Component {
   
   componentWillMount() {
-    this.animatedValue = new Animated.Value(1);
+    this.animatedValue = new Animated.Value(100);
   }
 
   componentDidMount() {
     Animated.timing(this.animatedValue, {
-      toValue: .3,
-      duration: 3000,
+      toValue: 150,
+      duration: 1000,
       easing: Easing.bounce
     }).start()
   }
 
   render() {
-    const animatedStyle = { opacity: this.animatedValue }
+    const animatedStyle = { height: this.animatedValue }
     return (
       <View style={styles.container}>
         <Animated.View style={[styles.box, animatedStyle]} />
