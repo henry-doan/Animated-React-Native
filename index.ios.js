@@ -3,50 +3,37 @@ import {
   AppRegistry,
   StyleSheet,
   Animated,
-  PanResponder,
   Text,
   View
 } from 'react-native';
 
 export default class AnimatedReactNative extends Component {
   
-
   componentWillMount() {
-    this.animatedValue = new Animated.ValueXY();
-    this._value = { x: 0, y: 0}
-    this.animatedValue.addListener((value) => this._value = value);
-    this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResonder: (evt, gestureState) => true,
-      onPanResponderGrant: (e, gestureState) => {
-        this.animatedValue.setOffset({
-          x: this._value.x,
-          y: this._value.y,
-        })
-        this.animatedValue.setValue({ x: 0, y:0})
-      },
-      onPanResponderMove: Animated.event([
-        null, { dx: this.animatedValue.x, dy: this.animatedValue.y}
-      ]),
-      onPanResponderRelease: (e, gestureState) => {
-        this.animatedValue.flattenOffset();
-        Animated.decay(this.animatedValue, {
-          deceleration: 0.997,
-          velocity: { x: gestureState.vx, y:gestureState.vy }
-        }).start();
-      },
-    })
+    this.animatedValue = new Animated.Value(0);
   }
 
+  componentDidMount() {
+    Animated.timing(this.animatedValue, {
+      toValue: 150,
+      duration: 1500
+    }).start();
+  }
 
   render() {
-    const animatedStyle = { 
-      transform: this.animatedValue.getTranslateTransform()
+    const interpolateColor = this.animatedValue.interpolate({
+      inputRange: [0, 150],
+      outputRange: ['rgb(0,0,0)', 'rgb(51, 250, 170)']
+    })
+    const animatedStyle = {
+      backgroundColor: interpolateColor,
+      transform: [
+        { translateY: this.animatedValue }
+      ]
     }
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.box, animatedStyle]} {...this.panResponder.panHandlers}>
-          <Text style={styles.text}>Drag Me</Text>
+        <Animated.View style={[styles.box, animatedStyle]}>
         </Animated.View>
       </View>
     );
