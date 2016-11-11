@@ -45,12 +45,12 @@ export default class AnimatedReactNative extends Component {
 
     const frontAnimatedStyle = {
       transform: [
-        { rotateX: this.frontInterpolate}
+        { rotateY: this.frontInterpolate}
       ]
     }
      const backAnimatedStyle = {
       transform: [
-        { rotateX: this.backInterpolate}
+        { rotateY: this.backInterpolate}
       ]
     }
     return (
@@ -68,7 +68,7 @@ export default class AnimatedReactNative extends Component {
           </Animated.View>
         </View>
         <TouchableOpacity onPress={() => this.flipCard()}>
-          <Text>Flip!</Text>
+          <Text style={styles.button}>Flip!</Text>
         </TouchableOpacity>
       </View>
     );
@@ -101,11 +101,17 @@ const styles = StyleSheet.create({
     height: 100
   },
   button: {
-    backgroundColor: "#333",
-    width: 100,
-    height: 50,
+    backgroundColor: "lightslategray",
+    width: 50,
+    height: 22,
+    padding: 3,
+    paddingLeft: 13, 
+    marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
+    color: "#FFF",
+    fontSize: 14,
+    fontFamily: 'Apple SD Gothic Neo',
   },
   flipText: {
     color: "#FFF",
